@@ -1,2 +1,4 @@
-# ztip
-Threat Intel Platform Thingy
+# itip
+
+Threat Intel Feed Importer with API to query
+

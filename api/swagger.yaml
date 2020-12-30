@@ -1,0 +1,175 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: iTIP API
+  description: Indeed Threat Intelligence Platform
+host: 'localhost:8080'
+basePath: /v1
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /status:
+    get:
+      description: Returns status for intel feeds and number of IP's it has data on
+      operationId: apiStatus
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: status response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/status'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+  '/ip/{ip}':
+    get:
+      description: Returns a JSON descriptor of the known intel associated with an IP
+      operationId: getIPIntel
+      security:
+        - apisec: []
+      produces:
+        - application/json
+      parameters:
+        - name: ip
+          in: path
+          description: IP to report intel on
+          required: true
+          type: string
+          format: >-
+            ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
+      responses:
+        '200':
+          description: IP Intel response
+          schema:
+            $ref: '#/definitions/ip'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+securityDefinitions:
+  apisec:
+    type: apiKey
+    in: header
+    name: api_key
+definitions:
+  status:
+    type: object
+    required:
+      - status
+      - ips
+    properties:
+      status:
+        type: string
+        example: OK
+      ips:
+        type: integer
+        format: int64
+        example: '23245323'
+      feeds:
+        type: integer
+        format: int32
+        example: '32'
+      updated:
+        type: string
+        format: date-time
+  ip:
+    type: object
+    required:
+      - ip
+    properties:
+      ip:
+        type: string
+        format: >-
+          ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
+        example: 123.123.123.123
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      lat:
+        type: string
+        example: '-37.7000'
+      long:
+        type: string
+        example: '145.1833'
+      city:
+        type: string
+        example: Sydney
+      continent:
+        type: string
+        example: Oceania
+      country:
+        type: string
+        example: Australia
+      countrycode:
+        type: string
+        example: AU
+      is_anonymous:
+        type: boolean
+        example: true
+      is_anon_VPN:
+        type: boolean
+        example: true
+      is_hosting_provider:
+        type: boolean
+        example: true
+      is_public_proxy:
+        type: boolean
+        example: true
+      is_tor_exit_node:
+        type: boolean
+        example: true
+      intel:
+        type: array
+        items:
+          $ref: '#/definitions/intel'
+  errorModel:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+  intel:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: '1234'
+      tag:
+        type: string
+        example: spam
+      feed_id:
+        type: integer
+        format: int32
+        example: '14'
+      feed_name:
+        type: string
+        example: Realtime Spam List
+      feed_url:
+        type: string
+        example: 'https://spamlist.com/spam_list'
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time

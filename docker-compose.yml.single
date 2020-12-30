@@ -1,0 +1,44 @@
+version: '3'
+services:
+  # mysql:
+  #   build:
+  #     context: './mysql/'
+  #   image: "zate75/itip:mysql"
+  #   container_name: itip-mysql
+  #   ports:
+  #     - 3306:3306
+  #   networks:
+  #     - itip
+  #   environment:
+  #     - MYSQL_RANDOM_ROOT_PASSWORD=true
+  #     - MYSQL_ONETIME_PASSWORD=false
+  #     - MYSQL_ROOT_HOST=%
+  #   restart: on-failure
+
+  # redis-master:
+  #   build:
+  #     context: './redis/'
+  #   image: "zate75/itip:redis-master"
+  #   container_name: redis-master
+  #   ports:
+  #     - 6379:6379
+  #   networks:
+  #     - itip
+  #   restart: on-failure
+
+  intel-import:
+    build:
+      context: .
+    image: "zate75/itip:intel-import"
+    container_name: intel-import
+    networks:
+      - itip
+    depends_on:
+      - mysql
+      - redis-master
+    restart: on-failure
+
+networks: 
+  itip:
+
+            

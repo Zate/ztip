@@ -1,0 +1,78 @@
+version: '3'
+services:
+  mysql:
+    build:
+      context: './intel-import/mysql/'
+    image: "zate75/itip:mysql"
+    container_name: itip_mysql
+    ports:
+      - 3306:3306
+    networks:
+      - itip
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_ONETIME_PASSWORD=false
+      - MYSQL_ROOT_HOST=%
+    restart: on-failure
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+
+
+  redis-master:
+    build:
+      context: './intel-import/redis/'
+    image: "zate75/itip:redis-master"
+    container_name: itip_redis-master
+    ports:
+      - 6379:6379
+    networks:
+      - itip
+    restart: on-failure
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+
+  intel-import:
+    build:
+      context: './intel-import/'
+    image: "zate75/itip:intel-import"
+    container_name: itip_intel-import
+    networks:
+      - itip
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+      - redis-master
+    restart: on-failure
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+
+  itip-api:
+    build:
+      context: './itip/'
+    image: "zate75/itip:itip-api"
+    container_name: itip_itip-api
+    command: /itip
+    ports:
+      - 8081:8081
+    networks:
+      - itip
+    restart: on-failure
+    deploy:
+      mode: replicated
+      placement:
+        constraints:
+          - node.role != manager
+        
+
+networks: 
+  itip:            

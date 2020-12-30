@@ -1,0 +1,61 @@
+feeds:
+  -
+    name: alienvault_reputation
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/alienvault_reputation.ipset
+  -
+    name: botscout_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/botscout_30d.ipset
+  -
+    name: cybercrime
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/cybercrime.ipset
+  -
+    name: et_tor
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/et_tor.ipset
+  -
+    name: maxmind_proxy_fraud
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/maxmind_proxy_fraud.ipset
+  -
+    name: cleantalk_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/cleantalk_30d.ipset
+  -
+    name: bi_any_2_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/bi_any_2_30d.ipset
+  -
+    name: dshield_top_1000
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/dshield_top_1000.ipset
+  -
+    name: et_compromised
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/et_compromised.ipset
+  -
+    name: proxylists_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/proxylists_30d.ipset
+  -
+    name: proxyspy_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/proxyspy_30d.ipset
+  -
+    name: proxz_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/proxz_30d.ipset
+  -
+    name: ri_connect_proxies_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/ri_connect_proxies_30d.ipset
+  -
+    name: ri_web_proxies_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/ri_web_proxies_30d.ipset
+  -
+    name: socks_proxy_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/socks_proxy_30d.ipset
+  -
+    name: sslproxies_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/sslproxies_30d.ipset
+  -
+    name: stopforumspam_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/stopforumspam_30d.ipset
+  -
+    name: talosintel_ipfilter
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/talosintel_ipfilter.ipset
+  -
+    name: tor_exits_30d
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/tor_exits_30d.ipset
+  -
+    name: sblam
+    url: https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/sblam.ipset

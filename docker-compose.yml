@@ -1,0 +1,77 @@
+version: '3'
+services:
+  mysql:
+    build:
+      context: './mysql/'
+    image: "zate75/itip:mysql"
+    container_name: mysql
+    networks:
+      - itip
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_ONETIME_PASSWORD=false
+      - MYSQL_ROOT_HOST=%
+    restart: on-failure
+
+  redis-master:
+    image: 'docker.io/bitnami/redis:6.0-debian-10'
+    container_name: redis-master
+    networks:
+      - itip
+    depends_on:
+      - mysql
+    environment:
+      - REDIS_REPLICATION_MODE=master
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+    restart: on-failure
+
+  intel-import:
+    build:
+      context: './import/'
+    image: "zate75/itip:intel-import"
+    container_name: intel-import
+    environment:
+      - REDIS_HOST=redis-master
+      - REDIS_PORT=6379
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+    volumes:
+     - ${PWD}/feeds.yml:/itip/feeds.yml
+    networks:
+      - itip
+    depends_on:
+      - mysql
+      - redis-master
+    restart: on-failure
+
+  itip-api:
+    build:
+      context: "./api/"
+    image: "zate75/itip:itip-api"
+    container_name: itip-api
+    command: ["/itip/startup.sh"]
+    environment:
+      - REDIS_REPLICATION_MODE=slave
+      - REDIS_MASTER_HOST=redis-master
+      - REDIS_MASTER_PORT_NUMBER=6379
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+    ports:
+      - 8080:8080
+      - 6379
+    user: root
+    networks:
+      - itip
+    restart: on-failure
+
+volumes:
+  redis_data:
+    driver: local
+
+networks: 
+  itip:            
